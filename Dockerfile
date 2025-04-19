@@ -7,15 +7,15 @@ WORKDIR /app
 # Install Maven (if necessary)
 RUN apt-get update && apt-get install -y maven
 
-# Copy the pom.xml and the source code to build the application
+# Copy pom.xml and source code to build the application
 COPY pom.xml .
 COPY src ./src
 
 # Build the application (this will create the target directory with the .jar)
 RUN mvn clean package -DskipTests
 
-# Copy the built .jar file into the container
-COPY target/*.jar app.jar
+# Now copy the .jar file from the build context to the image
+COPY ./target/*.jar app.jar
 
 # Expose the port your Spring Boot app will run on
 EXPOSE 8080
